@@ -36,16 +36,6 @@ class OnlyManagerPermission(permissions.BasePermission):
             return True
 
 
-class SaleManReadMainPermission(permissions.BasePermission):
-
-    def has_permission(self, request, view):
-        if bool(request.user and request.user.is_authenticated
-                and request.user.role_id == 4
-                and request.user.status_id == 1
-                ):
-            return True
-
-
 class OnlySaleManagerPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):

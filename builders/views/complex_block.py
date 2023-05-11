@@ -2,7 +2,7 @@ from django.db.models import Prefetch
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
-from builders.permissions import OnlyManagerPermission, SaleManReadMainPermission
+from builders.permissions import OnlyManagerPermission, OnlySaleManagerPermission
 from builders.serializers import (
     BlockSerializer, EntranceSerializer,
     FloorSerializer, ApartmentSerializer, BlockMainSerializer, ApartmentAddEditSerializer)
@@ -22,7 +22,7 @@ class BlockMainApiView(mixins.ListModelMixin,
         if self.request.method in ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] and self.request.user.role_id == 3:
             return [OnlyManagerPermission()]
         elif self.request.method == 'GET' and self.request.user.role_id == 4:
-            return [SaleManReadMainPermission()]
+            return [OnlySaleManagerPermission()]
         return super().get_permissions()
 
     def get_queryset(self):
