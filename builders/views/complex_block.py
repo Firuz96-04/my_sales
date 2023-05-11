@@ -2,11 +2,11 @@ from django.db.models import Prefetch
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
-from builders.permissions import OnlyManagerPermission
+from builders.permissions import OnlyManagerPermission, SaleManReadMainPermission
 from builders.serializers import (
     BlockSerializer, EntranceSerializer,
     FloorSerializer, ApartmentSerializer, BlockMainSerializer, ApartmentAddEditSerializer)
-from builders.models import Block, Entrance, Floor, Apartment
+from builders.models import Block, Entrance, Floor, Apartment, SaleManager
 from django.db.models.deletion import ProtectedError
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import NotFound
@@ -18,9 +18,22 @@ class BlockMainApiView(mixins.ListModelMixin,
     serializer_class = BlockMainSerializer
     permission_classes = (OnlyManagerPermission,)
 
+    def get_permissions(self):
+        if self.request.method in ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] and self.request.user.role_id == 3:
+            return [OnlyManagerPermission()]
+        elif self.request.method == 'GET' and self.request.user.role_id == 4:
+            return [SaleManReadMainPermission()]
+        return super().get_permissions()
+
     def get_queryset(self):
-        manager_id = self.request.user.id
-        return Block.objects.filter(resident_complex__manager_id=manager_id).\
+        # print(self.request.user.id)
+        user_id = None
+        if self.request.user.role_id == 3:
+            user_id = self.request.user.id
+        else:
+            sale_man = SaleManager.objects.get(pk=self.request.user.id)
+            user_id = sale_man.manager_id
+        return Block.objects.filter(resident_complex__manager_id=user_id).\
             prefetch_related(
                 Prefetch('entrances'),
                 Prefetch('entrances__floors', queryset=Floor.objects.order_by('-id')),

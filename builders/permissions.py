@@ -2,6 +2,7 @@ from rest_framework import permissions
 from rest_framework import serializers
 from rest_framework.exceptions import APIException
 from rest_framework import status
+from rest_framework.permissions import SAFE_METHODS
 
 
 class CustomForbidden(APIException):
@@ -31,6 +32,16 @@ class OnlyManagerPermission(permissions.BasePermission):
         if bool(request.user and request.user.is_authenticated
                 and request.user.role.name == 'manager'
                 and request.user.status.name == 'active'
+                ):
+            return True
+
+
+class SaleManReadMainPermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if bool(request.user and request.user.is_authenticated
+                and request.user.role_id == 4
+                and request.user.status_id == 1
                 ):
             return True
 
