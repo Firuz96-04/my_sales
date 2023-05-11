@@ -139,6 +139,7 @@ class SaleManagerAction(models.Model):
 class SocialMedia(models.Model):
     id = models.SmallAutoField(primary_key=True)
     name = models.CharField(max_length=20)
+    is_social = models.BooleanField(default=False)
 
     class Meta:
         db_table = "social_media"

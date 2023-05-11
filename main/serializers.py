@@ -182,7 +182,7 @@ class SaleManagerActionSerializer(serializers.ModelSerializer):
 class SocialMediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialMedia
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'is_social')
 
     def validate(self, data):
         errors = []

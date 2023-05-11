@@ -26,8 +26,6 @@ class BlockMainApiView(mixins.ListModelMixin,
         return super().get_permissions()
 
     def get_queryset(self):
-        # print(self.request.user.id)
-        user_id = None
         if self.request.user.role_id == 3:
             user_id = self.request.user.id
         else:
@@ -41,7 +39,6 @@ class BlockMainApiView(mixins.ListModelMixin,
         )
 
     def get(self, request, *args, **kwargs):
-        # print(self.request.META)
         block = BlockMainSerializer(self.get_queryset(), many=True, context={'request': request})
         return Response({'data': block.data})
 
