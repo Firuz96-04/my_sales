@@ -14,3 +14,8 @@ class ClientFilter(filters.FilterSet):
     def search_filter(self, queryset, name, value):
         return queryset.filter(models.Q(first_name__icontains=value) | models.Q(last_name__icontains=value) |
                                models.Q(sure_name__icontains=value) | models.Q(phone__icontains=value))
+
+
+class ApartmentFilter(filters.FilterSet):
+
+    pass
