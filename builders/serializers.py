@@ -331,6 +331,19 @@ class ClientNoticeApartmentSerializer(serializers.ModelSerializer):
         response['sale_manager'] = instance.sale_manager_id
         return response
 
-    def create(self, validated_data):
-        validated_data["sale_manager_id"] = 9
-        return super().create(validated_data)
+    # def create(self, validated_data):
+    #     return super().create(validated_data)
+
+
+class ApartmentBuySerializer(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField()
+    sale_manager = serializers.IntegerField(source='sale_manager.id', read_only=True)
+
+    class Meta:
+        model = ApartmentBuy
+        fields = ('id', 'client', 'apartment', 'sale_manager', 'created_at')
+
+    def get_created_at(self, obj):
+        myDate = obj.created_at
+        formatedDate = myDate.strftime("%Y-%m-%d %H:%M:%S")
+        return formatedDate

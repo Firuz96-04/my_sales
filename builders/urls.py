@@ -7,7 +7,7 @@ from builders.views import (
 )
 from builders.views.builder import (BuilderApiView, BuilderVerifyView)
 from builders.views.resident_complex import (ResidentComplexApiView, ManagerComplexApiView)
-from builders.views.sale_manager import (ClientNoticeApartmentApiView, )
+from builders.views.sale_manager import (ClientNoticeApartmentApiView, ApartmentBuyApiView )
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -30,7 +30,8 @@ urlpatterns = [
     path('entrance', EntranceApiView.as_view()),
     path('floor', FloorApiView.as_view()),
     path('apartment', ApartmentApiView.as_view()),
-    path('client-notice', ClientNoticeApartmentApiView.as_view())
+    path('client-notice', ClientNoticeApartmentApiView.as_view()),
+    path('aprtment-buy', ApartmentBuyApiView.as_view())
 
 ]
 

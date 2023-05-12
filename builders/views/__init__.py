@@ -5,4 +5,4 @@ from .manager import ManagerApiView
 from .complex_block import (BlockApiView, EntranceApiView,
                             FloorApiView, ApartmentApiView, BlockMainApiView)
 
-from .sale_manager import (ClientNoticeApartmentApiView,)
+from .sale_manager import (ClientNoticeApartmentApiView, ApartmentBuyApiView)

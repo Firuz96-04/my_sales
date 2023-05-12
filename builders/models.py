@@ -228,3 +228,13 @@ class ApartmentPrice(models.Model):
 
     class Meta:
         db_table = "apartment_price"
+
+
+class ApartmentBuy(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    sale_manager = models.ForeignKey(SaleManager, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "apartment_buy"
